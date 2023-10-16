@@ -1,0 +1,25 @@
+from selenium import webdriver
+from selenium.webdriver.support.select import Select
+from time import *
+
+Path = "C:\Program Files (x86)\chromedriver.exe"
+driver = webdriver.Chrome(Path)
+
+driver.get("https://tvweb-ui-at.preprod.tv.yo-digital.com/")
+sleep(1)
+driver.maximize_window()
+driver.find_element_by_css_selector('button[class="styles__ButtonStyled-sc-1v6p797-0 dnNGpB"]').click()
+driver.find_element_by_css_selector('div[class="styles__LoginButton-ot1uy1-0 hodhBz"]').click()
+sleep(1)
+driver.find_element_by_css_selector('button[class="styles__StandardButtonStyled-sc-1oc0qs-0 iFQxKU"]').click()
+driver.find_element_by_css_selector('input[class="styles__InputStyled-sc-6g72i-0 oWRlw form-input"]').send_keys("test_ta_appDeveloper@outlook.com")
+driver.find_element_by_css_selector('input[type="password"]').send_keys("dfhjh234")
+driver.find_element_by_css_selector('button[type="submit"]').click()
+driver.implicitly_wait(2)
+#driver.find_element_by_xpath('//div[@class="eAKmGD"]/p')
+x= driver.find_element_by_class_name("styles__NativeLoginError-sc-1l29h4t-2").text
+assert x == "Unfortunately the username or password is not correct", " Test Failed"
+print("Login_false test passed")
+driver.close()
+
+
