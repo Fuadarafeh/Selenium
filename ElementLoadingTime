@@ -1,0 +1,65 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import time
+import csv
+import os.path
+
+csv_path = "classic_run3.csv"
+try:
+    file = open(csv_path, 'w', newline='')
+    writer = csv.writer(file)
+    writer.writerow(["Home_page_loading_time","Cover_loading_time","Channel_name_loading_time","Channel_EPG_loading_time"])
+except:
+    print("error opening or writing to the CSV file!")
+
+
+iterations = 100
+for i in range(iterations):
+
+    # Define Webdriver path
+    Path = "C:\Program Files (x86)\chromedriver.exe"
+    driver = webdriver.Chrome(Path)
+
+    time.sleep(1)
+    #Home page loading time
+    start_time = time.time()
+    driver.get("https://tvweb-ui-at.preprod.tv.yo-digital.com/")
+    print(start_time, 1)
+    driver.implicitly_wait(2)
+    driver.maximize_window()
+    Home_page_loading_time = time.time() - start_time
+    #print("Home page loading time :", elapsed_time1)
+
+
+
+    #Cover loading time
+    start_time4 = time.time()
+    driver.find_element_by_css_selector('section[class="styles__HighlightsSection-sc-15t4bz6-1 iTYOxp cover-screen"]')
+    driver.implicitly_wait(2)
+    Cover_loading_time = time.time() - start_time
+    #print("Home page background loading time :", elapsed_time2)
+
+
+    #Channel name loading time
+    start_time2 = time.time()
+    driver.find_element_by_css_selector('img[class="styles__ImageStyled-sc-1hw4fmg-0 jyIFqj epgIcon"]').click()
+    driver.implicitly_wait(2)
+    driver.find_element_by_class_name("styles__EPGChannelListStyled-sc-13eimry-0")
+    driver.implicitly_wait(2)
+    Channel_name_loading_time = time.time() - start_time2
+    #print("Channel name loading time :", elapsed_time3)
+
+
+    #EPG loading time
+    #start_time3 = time.time()
+    #driver.find_element_by_css_selector('div[class="styles__EPGProgramScreenStyled-sc-1sj1n0w-0 dZCQjI"]')
+    driver.implicitly_wait(2)
+    driver.find_element_by_css_selector('div[class="styles__EPGCompleteTitle-n2puaj-4 awYwJ"]')
+    driver.implicitly_wait(2)
+    Channel_EPG_loading_time = time.time() - start_time2
+    #print("Channel EPG loading time :", elapsed_time4)
+    writer.writerow([Home_page_loading_time,Cover_loading_time,Channel_name_loading_time,Channel_EPG_loading_time])
+    time.sleep(1)
+    driver.close()
+
+
